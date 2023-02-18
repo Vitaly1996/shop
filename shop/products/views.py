@@ -81,3 +81,5 @@ def stripe_webhook(request):
         print(session)
 
     return HttpResponse(status=200)
+
+
