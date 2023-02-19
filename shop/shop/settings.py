@@ -2,11 +2,11 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'gv_w$o+_nsb_w(#nzx%uj3te+d-yt&+t-ok&j-0@cy!%(w4(w2'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*')
 
 
 # Application definition
@@ -52,13 +52,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shop.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.getenv(
+            'DB_ENGINE',
+            default='django.db.backends.postgresql'
+        ),
+        'NAME': os.getenv('DB_NAME', default='change_me'),
+        'USER': os.getenv('POSTGRES_USER', default='change_me'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='change_me'),
+        'HOST': os.getenv('DB_HOST', default='change_me'),
+        'PORT': os.getenv('DB_PORT', default='change_me')
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -91,16 +103,19 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STRIPE_PUBLIC_KEY = 'pk_test_51Mc7IPLBPuO1caJNenoCubn0sr6lYoXoikH3jgWFzzEEUD9kJ4dDXLIYXRSBh5mo9aznfDtWIh8vSfGzDoEff50l00OH3uSAYL'
-STRIPE_SECRET_KEY = 'sk_test_51Mc7IPLBPuO1caJNufFPNiy40RoLl3TaXglTQ2gvP8FkLXgU9kIya0S9qMmdlllfjByFl7z3FCw5UneHmYgabawf00bVT4umVP'
-STRIPE_WEBHOOK_SECRET = 'whsec_d50e9796205adcda3c038723a437ccfe0eb8a0519ad61213e288db96f2bfa2b6'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
 CONV_CENT_USD = 100

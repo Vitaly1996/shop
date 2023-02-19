@@ -38,7 +38,7 @@ class IndexPageView(TemplateView):
 class CreateCheckoutSessionView(View):
 
     def post(self, request, *args, **kwargs):
-        YOUR_DOMAIN = 'http://127.0.0.1:8000'
+        YOUR_DOMAIN = 'http://90.156.229.65'
         item = Item.objects.get(id=kwargs.get('id'))
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
